@@ -2,14 +2,65 @@
 
 pragma solidity ^0.8.24;
 
-import {IVerifier} from "src/IVerifier.sol";
-import {ERC20} from "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
-import {IERC20} from "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
-import {ERC4626} from "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/ERC4626.sol";
-import {IERC4626} from "lib/openzeppelin-contracts/lib/forge-std/src/interfaces/IERC4626.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {ERC4626} from "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol";
+import {IVerifier} from "./IVerifier.sol";
 
 contract ZeroGateVault is ERC4626 {
-    string public constant STATUS = "Ongoing";
+    mapping(address => bool) public isVerified;
 
-    constructor(IERC20 asset_) ERC20("ZeroGate Vault", "ZGV") ERC4626(asset_) {}
+    /// @notice Custom Errors
+    error ZGV_MintDisabled();
+    error ZGV_DepositDisabled();
+    // error ZGV_UpdateDisabled();
+    error ZGV_ProofDenied();
+    error ZGV_RecipientNotVerified();
+    error ZGV_InvalidPublicInputs();
+
+    IVerifier public immutable i_verify;
+
+    constructor(
+        IERC20 asset_,
+        IVerifier verifier_
+    ) ERC20("ZeroGate Vault Share", "ZGVShare") ERC4626(asset_) {
+        i_verify = verifier_;
+    }
+
+    function mint(uint256, address) public pure override returns (uint256) {
+        revert ZGV_MintDisabled();
+    }
+
+    function deposit(uint256, address) public pure override returns (uint256) {
+        revert ZGV_DepositDisabled();
+    }
+
+    function _update(
+        address from,
+        address to,
+        uint256 value
+    ) internal virtual override {
+        bool isTransfer = from != address(0) && to != address(0);
+
+        if (isTransfer && !isVerified[to]) {
+            revert ZGV_RecipientNotVerified();
+        }
+        super._update(from, to, value); // this line does the real work
+    }
+
+    function depositWithProof(
+        uint256 assets,
+        address receiver,
+        bytes calldata proof,
+        bytes32[] calldata publicInputs
+    ) external returns (uint256 shares){
+        if (publicInputs.length == 0 || publicInputs[0] != bytes32(uint256(uint160(receiver)))) {
+            revert ZGV_InvalidPublicInputs();
+        }
+        if (!i_verify.verify(proof, publicInputs)){
+            revert ZGV_ProofDenied();
+        }
+        isVerified[receiver] = true;
+        shares = super.deposit(assets, receiver);
+    }
 }
