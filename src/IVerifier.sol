@@ -9,6 +9,6 @@ interface IVerifier {
     /// @param proof The serialized ZK proof bytes
     /// @param publicInputs The public inputs the proof was generated against
     /// @return True if the proof is valid, false otherwise
-    function verify (bytes calldata proof, bytes32[] calldata publicInputs) external view returns (bool);
+    function verify(bytes calldata proof, bytes32[] calldata publicInputs) external view returns (bool);
 }
 

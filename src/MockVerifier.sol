@@ -6,6 +6,7 @@ import {IVerifier} from "../src/IVerifier.sol";
 
 contract MockVerifier is IVerifier {
     bool public shouldPass;
+
     constructor(bool shouldPass_) {
         shouldPass = shouldPass_;
         shouldPass_ = false;
@@ -14,7 +15,8 @@ contract MockVerifier is IVerifier {
     function setShouldPass(bool value) external {
         shouldPass = value;
     }
-        function verify (bytes calldata, bytes32[] calldata) external view override returns (bool) {
-            return shouldPass;
-        }
+
+    function verify(bytes calldata, bytes32[] calldata) external view override returns (bool) {
+        return shouldPass;
+    }
 }
