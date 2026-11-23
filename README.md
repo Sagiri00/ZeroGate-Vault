@@ -101,13 +101,13 @@ ERC-4626 shares are ERC-20 tokens, so by default a verified user could send shar
   - Deposit with an invalid proof reverts
   - Plain `deposit` reverts
   - `mint` reverts
+  - Wrong-receiver test (proof-copying protection)
+  - Empty `publicInputs` test
+  - Share transfer tests (to unverified and to verified recipients)
+  - Withdraw and redeem tests
+  - Fuzz tests for deposit amounts
 
 ### 🔨 In Progress
-- Wrong-receiver test (proof-copying protection)
-- Empty `publicInputs` test
-- Share transfer tests (to unverified and to verified recipients)
-- Withdraw and redeem tests
-- Fuzz tests for deposit amounts
 
 ### 📋 Planned
 - **Phase 2:** learn Noir, write a `score > 800` circuit, generate the real verifier contract, swap out the mock
