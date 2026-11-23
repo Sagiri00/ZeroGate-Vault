@@ -1,6 +1,6 @@
 # ZeroGate Vault
 
-> 🚧 **Work in progress.** Phase 1 (vault logic and tests) is underway. Real zero-knowledge verification (Noir) is not integrated yet. **Not audited. Do not use with real funds.**
+> 🚧 **Work in progress.** Phase 1 is complete: the vault logic and its test suite are done, using a mock verifier. Phase 2 (real zero-knowledge verification with Noir) has not started. **Not audited. Do not use with real funds.**
 
 A compliance-gated **ERC-4626 yield vault**. Depositors must present a zero-knowledge proof that their compliance score is above a threshold, without revealing the score itself. Proof verification is delegated to a separate verifier contract, which will be generated from a **Noir** circuit.
 
@@ -8,17 +8,31 @@ A compliance-gated **ERC-4626 yield vault**. Depositors must present a zero-know
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [How It Works](#how-it-works)
-- [Design Decisions](#design-decisions)
-- [Current Status](#current-status)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Testing](#testing)
-- [Roadmap](#roadmap)
-- [Known Limitations](#known-limitations)
-- [Tech Stack](#tech-stack)
-- [Disclaimer](#disclaimer)
+- [ZeroGate Vault](#zerogate-vault)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [How It Works](#how-it-works)
+  - [Design Decisions](#design-decisions)
+    - [1. Verifier behind an interface](#1-verifier-behind-an-interface)
+    - [2. Every entry point is gated](#2-every-entry-point-is-gated)
+    - [3. Proofs are bound to the receiver](#3-proofs-are-bound-to-the-receiver)
+    - [4. Share transfers are restricted](#4-share-transfers-are-restricted)
+    - [5. Exits are open](#5-exits-are-open)
+  - [Current Status](#current-status)
+    - [✅ Done](#-done)
+    - [🔨 In Progress](#-in-progress)
+    - [📋 Planned](#-planned)
+  - [Project Structure](#project-structure)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Install](#install)
+    - [Remapping](#remapping)
+  - [Testing](#testing)
+  - [Roadmap](#roadmap)
+  - [Known Limitations](#known-limitations)
+  - [Tech Stack](#tech-stack)
+  - [Disclaimer](#disclaimer)
+  - [Author](#author)
 
 ---
 

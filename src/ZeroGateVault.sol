@@ -40,6 +40,7 @@ contract ZeroGateVault is ERC4626 {
     /// @notice We have override this function so it can verify the user and then only updates it.
     function _update(address from, address to, uint256 value) internal virtual override {
         bool isTransfer = from != address(0) && to != address(0);
+        // bool isTransfer = from != address(0);  /// The test that burns share can get failed.
 
         if (isTransfer && !isVerified[to]) {
             revert ZGV_RecipientNotVerified();
