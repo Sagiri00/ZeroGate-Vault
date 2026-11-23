@@ -179,8 +179,8 @@ Tests use `MockVerifier`, whose `setShouldPass(bool)` switch lets them simulate 
 
 | Phase | Goal | Status |
 |---|---|---|
-| 1 | Vault, interface, mock verifier, tests | 🔨 In progress |
-| 2 | Noir circuit and real verifier integration | ⏳ Not started |
+| 1 | Vault, interface, mock verifier, tests | ✅ Done |
+| 2 | Noir circuit and real verifier integration | 🔨 In progress |
 | 3 | Issuer signatures, expiry, revocation, hardening | ⏳ Not started |
 | 4 | Deploy script, testnet deployment, documentation | ⏳ Not started |
 
