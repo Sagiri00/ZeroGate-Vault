@@ -1,0 +1,6 @@
+[package]
+name = "score_check"
+type = "bin"
+authors = [""]
+
+[dependencies]
