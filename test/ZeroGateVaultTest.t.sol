@@ -29,9 +29,7 @@ contract ZeroGateVaultTTest is Test {
     }
 
     /// Helper Function
-    function _inputsFor(
-        address user
-    ) internal pure returns (bytes32[] memory inputs) {
+    function _inputsFor(address user) internal pure returns (bytes32[] memory inputs) {
         inputs = new bytes32[](1);
         inputs[0] = bytes32(uint256(uint160(user)));
     }

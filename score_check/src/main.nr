@@ -5,9 +5,10 @@ fn main(score: u64, threshold: pub u64) {
 #[test]
 fn test_main() {
     main(800, 799);
-
-    // Uncomment to make test fail
-    main(850, 799);
+}
+#[test(should_fail)]
+fn test_should_fail_default() {
+    main(798, 799);
 }
 
 #[test(should_fail)]
